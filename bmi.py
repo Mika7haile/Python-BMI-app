@@ -19,8 +19,6 @@ class App(ctk.CTk):
         # layout
         self.columnconfigure(0, weight = 1)
         self.rowconfigure((0,1,2,3), weight = 1, uniform='as')
-        # widgets
-        ResultText(self)
 
         self.mainloop()
     def change_title_bar_color(self, HexColore):
@@ -36,12 +34,6 @@ class App(ctk.CTk):
         except: 
             pass
 
-class ResultText(ctk.CTkLabel):
-    def __init__(self, parent):
-        font = ctk.CTkFont(family = FONT, size= MAIN_TEXT_SIZE, weight= 'bold')
-        super().__init__(master = parent, text = 34.4, font = font)
-        self.grid(row = 0, column = 0, rowspan = 2, sticky = 'nwes')
-        self._fg_color('red')
 
 if __name__ == '__main__':
     App()
