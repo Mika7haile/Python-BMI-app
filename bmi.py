@@ -21,7 +21,8 @@ class App(ctk.CTk):
         self.rowconfigure((0,1,2,3), weight = 1, uniform='as')
         # widgets
         ResultText(self)
-        weightInput(self)
+        WeightInput(self)
+        HeightInput(self)
         self.mainloop()
         
 
@@ -46,7 +47,7 @@ class ResultText(ctk.CTkLabel):
             font = font,
             text_color = WHITE)
         self.grid(row = 0, column = 0, rowspan = 2, sticky = 'nwes')
-class weightInput(ctk.CTkFrame):
+class WeightInput(ctk.CTkFrame):
     def __init__(self, parent):
         super().__init__(parent, fg_color= WHITE)
         self.grid(row = 2, column = 0, sticky = 'nsew', padx = 10, pady = 10)
@@ -106,7 +107,29 @@ class weightInput(ctk.CTkFrame):
             corner_radius= BUTTON_CORNER_RADIUS
             )
         small_plus_button.grid(row = 0, column = 3, padx = 4, pady = 4)
+class HeightInput(ctk.CTkFrame):
+    def __init__(self, parent):
+        super().__init__(parent, fg_color = WHITE)
+        self.grid(row = 3, column = 0, sticky = 'nswe', padx = 10, pady = 10)
 
+        # widget and layout(pack)
+
+        slider = ctk.CTkSlider(
+            self,
+            button_color= GREEN,
+            button_hover_color= GRAY,
+            progress_color= GREEN,
+            fg_color= LIGHT_GRAY
+            )
+        slider.pack(side = 'left', expand = True, fill = 'x', padx = 10, pady = 10)
+
+        output_text = ctk.CTkLabel(
+            self,
+            text= '34m',
+            text_color= BLACK,
+            font = ctk.CTkFont(family= FONT, size= INPUT_FONT_SIZE)
+            )
+        output_text.pack(side= 'left', padx = 20)
 
 if __name__ == '__main__':
     App()
