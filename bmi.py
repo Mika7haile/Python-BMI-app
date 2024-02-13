@@ -10,7 +10,7 @@ class App(ctk.CTk):
 
         # window setup
         super().__init__(fg_color= GREEN)
-        self.title('')
+        self.title('BMI')
         self.iconbitmap('bmi.ico')
         self.geometry('400x400')
         self.resizable(False, False)
