@@ -56,15 +56,7 @@ class App(ctk.CTk):
         except: 
             pass
 
-class ResultText(ctk.CTkLabel):
-    def __init__(self, parent):
-        font = ctk.CTkFont(family = FONT, size= MAIN_TEXT_SIZE, weight= 'bold')
-        super().__init__(
-            master = parent,
-            text = 34.4,
-            font = font,
-            text_color = WHITE)
-        self.grid(row = 0, column = 0, rowspan = 2, sticky = 'nwes')
+
     
 class weightInput(ctk.CTkFrame):
     def __init__(self, parent):
