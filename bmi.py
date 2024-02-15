@@ -21,26 +21,27 @@ class App(ctk.CTk):
         self.rowconfigure((0,1,2,3), weight = 1, uniform='as')
 
         # data
-        self.height_int = ctk.IntVar(value= 175)
+        self.height_int = ctk.IntVar(value= 154)
         self.weight_float = ctk.DoubleVar(value= 65)
         self.bmi_string = ctk.StringVar()
         self.update_bmi()
 
-
+        # interactive slider
+        self.height_int.trace('w', self.update_bmi)
+        self.weight_float.trace('w', self.update_bmi)
 
         # widgets
         ResultText(self, self.bmi_string)
-        WeightInput(self)
-        HeightInput(self)
+        WeightInput(self, self.weight_float)
+        HeightInput(self, self.height_int)
         UnitSwitcher(self)
         self.mainloop()
 
-    def update_bmi(self):
+    def update_bmi(self, *args):
         height = self.height_int.get()/ 100
         weight = self.weight_float.get() 
         resultText = round(weight / height** 2, 2)
         self.bmi_string.set(resultText)
-
 
     def change_title_bar_color(self, HexColore):
         try:
@@ -65,10 +66,10 @@ class ResultText(ctk.CTkLabel):
             text_color = WHITE)
         self.grid(row = 0, column = 0, rowspan = 2, sticky = 'nwes')
 class WeightInput(ctk.CTkFrame):
-    def __init__(self, parent):
+    def __init__(self, parent,weight_float):
         super().__init__(parent, fg_color= WHITE)
         self.grid(row = 2, column = 0, sticky = 'nsew', padx = 10, pady = 10)
-
+        self.weight_float = weight_float
         # layout 
         self.rowconfigure(0, weight= 1, uniform= "b")
         self.columnconfigure(0, weight= 2, uniform= "b")
@@ -91,7 +92,8 @@ class WeightInput(ctk.CTkFrame):
             font= font,
             text_color=BLACK,
             hover_color= GRAY,
-            corner_radius= BUTTON_CORNER_RADIUS
+            corner_radius= BUTTON_CORNER_RADIUS,
+            command = lambda: self.update_weight(('minus', 'large')) 
             )
         minus_button.grid(row = 0, column = 0, sticky = 'ns', padx = 8, pady = 8)
         small_minus_button = ctk.CTkButton(
@@ -101,7 +103,8 @@ class WeightInput(ctk.CTkFrame):
             font= font,
             text_color=BLACK,
             hover_color= GRAY,
-            corner_radius= BUTTON_CORNER_RADIUS
+            corner_radius= BUTTON_CORNER_RADIUS,
+            command = lambda: self.update_weight(('minus', 'small')) 
             )
         small_minus_button.grid(row = 0, column = 1, padx = 4, pady = 4)
         plus_button = ctk.CTkButton(
@@ -111,7 +114,8 @@ class WeightInput(ctk.CTkFrame):
             font= font,
             text_color=BLACK,
             hover_color= GRAY,
-            corner_radius= BUTTON_CORNER_RADIUS
+            corner_radius= BUTTON_CORNER_RADIUS,
+            command = lambda: self.update_weight(('plus', 'large'))
             )
         plus_button.grid(row = 0, column = 4, sticky = 'ns', padx = 8, pady = 8)
         small_plus_button = ctk.CTkButton(
@@ -121,11 +125,18 @@ class WeightInput(ctk.CTkFrame):
             font= font,
             text_color=BLACK,
             hover_color= GRAY,
-            corner_radius= BUTTON_CORNER_RADIUS
+            corner_radius= BUTTON_CORNER_RADIUS,
+            command = lambda: self.update_weight(('plus', 'small'))
             )
         small_plus_button.grid(row = 0, column = 3, padx = 4, pady = 4)
+    def update_weight(self, info = None):
+        amount = 1 if info[1] == 'large' else 0.1
+        if info[0] == 'plus':
+            self.weight_float.set(self.weight_float.get() + amount)
+        else:
+            self.weight_float.set(self.weight_float.get() - amount)
 class HeightInput(ctk.CTkFrame):
-    def __init__(self, parent):
+    def __init__(self, parent, height_int):
         super().__init__(parent, fg_color = WHITE)
         self.grid(row = 3, column = 0, sticky = 'nswe', padx = 10, pady = 10)
 
@@ -133,10 +144,13 @@ class HeightInput(ctk.CTkFrame):
 
         slider = ctk.CTkSlider(
             self,
+            variable= height_int,
             button_color= GREEN,
             button_hover_color= GRAY,
             progress_color= GREEN,
-            fg_color= LIGHT_GRAY
+            fg_color= LIGHT_GRAY,
+            from_= 100,
+            to=239
             )
         slider.pack(side = 'left', expand = True, fill = 'x', padx = 10, pady = 10)
 
