@@ -144,23 +144,36 @@ class HeightInput(ctk.CTkFrame):
 
         slider = ctk.CTkSlider(
             self,
-            variable= height_int,
+            variable = height_int,
             button_color= GREEN,
             button_hover_color= GRAY,
             progress_color= GREEN,
             fg_color= LIGHT_GRAY,
             from_= 100,
-            to=239
+            to=239,
+            command= self.update_text
             )
         slider.pack(side = 'left', expand = True, fill = 'x', padx = 10, pady = 10)
 
+        self.output_string = ctk.StringVar()
+        self.update_text(height_int.get())
         output_text = ctk.CTkLabel(
             self,
+            textvariable = self.output_string,
             text= '34m',
             text_color= BLACK,
             font = ctk.CTkFont(family= FONT, size= INPUT_FONT_SIZE)
             )
         output_text.pack(side= 'left', padx = 20)
+
+    def update_text(self, amount):
+        text_string = str(int(amount))
+        meter = text_string[0]
+        cm = text_string[1:]
+        self.output_string.set(f'{meter}.{cm}m')
+        
+        
+
 class UnitSwitcher(ctk.CTkLabel):
     def __init__(self, parent):
         super().__init__(
