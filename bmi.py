@@ -70,6 +70,8 @@ class WeightInput(ctk.CTkFrame):
         super().__init__(parent, fg_color= WHITE)
         self.grid(row = 2, column = 0, sticky = 'nsew', padx = 10, pady = 10)
         self.weight_float = weight_float
+        # exersise
+
         # layout 
         self.rowconfigure(0, weight= 1, uniform= "b")
         self.columnconfigure(0, weight= 2, uniform= "b")
